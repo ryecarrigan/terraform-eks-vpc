@@ -5,7 +5,8 @@ variable "cidr_block" {
 variable "cluster_name" {}
 
 variable "extra_tags" {
-  type = "map"
+  default = {}
+  type    = "map"
 }
 
 variable "nat_gateway_count" {
