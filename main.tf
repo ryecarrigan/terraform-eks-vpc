@@ -33,11 +33,9 @@ resource "aws_internet_gateway" "gateway" {
 }
 
 resource "aws_nat_gateway" "gateway" {
-  count = min(var.nat_gateway_count, local.active_zone_count)
-
   allocation_id = aws_eip.ip.id
   depends_on    = [aws_internet_gateway.gateway]
-  subnet_id     = aws_subnet.public[count.index].id
+  subnet_id     = aws_subnet.public[0].id
   tags          = local.common_tags
 }
 
