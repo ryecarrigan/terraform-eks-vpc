@@ -1,11 +1,5 @@
-locals {
-  active_zone_count = length(local.active_zones)
-  active_zones      = slice(data.aws_availability_zones.current.names, 0, var.zone_count)
-  cluster_name_tag  = "kubernetes.io/cluster/${var.cluster_name}"
-  common_tags       = merge({Name: var.cluster_name}, var.extra_tags)
-  total_zone_count  = length(data.aws_availability_zones.current.names)
-  vpc_cidr_block    = aws_vpc.vpc.cidr_block
-  vpc_id            = aws_vpc.vpc.id
+terraform {
+  required_version = ">= 0.12.0"
 }
 
 data "aws_availability_zones" "current" {}
@@ -107,4 +101,14 @@ resource "aws_route_table_association" "public" {
 
   route_table_id = aws_route_table.public.id
   subnet_id      = aws_subnet.public.*.id[count.index]
+}
+
+locals {
+  active_zone_count = length(local.active_zones)
+  active_zones      = slice(data.aws_availability_zones.current.names, 0, var.zone_count)
+  cluster_name_tag  = "kubernetes.io/cluster/${var.cluster_name}"
+  common_tags       = merge({Name: var.cluster_name}, var.extra_tags)
+  total_zone_count  = length(data.aws_availability_zones.current.names)
+  vpc_cidr_block    = aws_vpc.vpc.cidr_block
+  vpc_id            = aws_vpc.vpc.id
 }

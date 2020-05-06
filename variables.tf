@@ -6,7 +6,7 @@ variable "cluster_name" {}
 
 variable "extra_tags" {
   default = {}
-  type    = "map"
+  type    = map(string)
 }
 
 variable "zone_count" {
